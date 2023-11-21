@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,21 +92,26 @@ public class MainActivity extends AppCompatActivity {
         red.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colorToggle("#FF0000");
+
+                colorToggle("#FD3D3D", "Red");
             }
         });
 
         green.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colorToggle("#00FF00");
+
+                colorToggle("#6AF46A","Green");
+
             }
         });
 
         blue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colorToggle("#0000FF");
+
+                colorToggle("#56C2F4","Blue");
+
             }
         });
 
@@ -140,25 +146,40 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!checked) text = "";
-
+        else  {
+            Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+        }
         textView1.setText(text);
     }
 
     private void going(int checkedId) {
         RadioButton selected = findViewById(checkedId);
-       String text1 = selected.getText().toString();
+       String place = selected.getText().toString();
+       String message = "";
         if (selected != null) {
-            textView2.setText("I want to visit " + text1 + " in December");
+            message = "I want to visit " + place + " in December";
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
         }
+
+        textView2.setText(message);
     }
 
-    private void colorToggle(String colorHex) {
-        int currentColor = ((ColorDrawable) layout.getBackground()).getColor();
+    private void colorToggle(String colorHex, String colorName) {
+        ColorDrawable bg = (ColorDrawable) layout.getBackground();
+        int currentColor = Color.WHITE;
 
-        if (currentColor == Color.parseColor(colorHex)) {
+        if (bg != null) {
+            currentColor = bg.getColor();
+        }
+
+        int buttonColor = Color.parseColor(colorHex);
+
+        if (currentColor == buttonColor) {
             layout.setBackgroundColor(Color.WHITE);
         } else {
-            layout.setBackgroundColor(Color.parseColor(colorHex));
+            layout.setBackgroundColor(buttonColor);
+            Toast.makeText(MainActivity.this, "Color is now "+ colorName, Toast.LENGTH_SHORT).show();
+
         }
     }
 
